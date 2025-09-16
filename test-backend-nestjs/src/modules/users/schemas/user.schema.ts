@@ -23,16 +23,19 @@ export class User {
   address: string;
 
   @Prop()
+  email: string
+
+  @Prop({default: "LOCAL"})
   accountType: string;
 
-  @Prop()
+  @Prop({ default: "USERS" })
   role: string;
 
   @Prop()
   image: string;
 
-  @Prop()
-  isActive: string;
+  @Prop({default: false})
+  isActive: boolean;
 
   @Prop()
   codeId: string;
