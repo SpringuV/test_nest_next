@@ -8,17 +8,24 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
-  async signIn(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByEmail(username);
-    const isValidPassword = comparePasswordHelper(pass, user?.password);
-    if (!isValidPassword) {
-      throw new UnauthorizedException();
-    }
-    const payload = {sub: user?._id, username: user?.email}
+  async login(user: any) {
+    const payload = { username: user.email, sub: user._id }
     return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+      access_token: this.jwtService.sign(payload)
+    }
+  }
+
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.usersService.findByEmail(username);
+    if (user == null) {
+      throw new UnauthorizedException("Không thể tìm thấy người dùng")
+    }
+    const isValidPassword = await comparePasswordHelper(pass, user.password);
+    if (!isValidPassword) {
+      throw new UnauthorizedException("Username/Password không hợp lệ");
+    }
+    return user
   }
 }

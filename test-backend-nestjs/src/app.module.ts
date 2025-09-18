@@ -27,7 +27,6 @@ import { AuthModule } from './auth/auth.module';
     RestaurantsModule,
     ReviewsModule,
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/admin'),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -39,4 +38,4 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

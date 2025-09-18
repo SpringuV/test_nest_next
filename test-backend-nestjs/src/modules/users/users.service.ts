@@ -13,7 +13,7 @@ export class UsersService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
-  ) {}
+  ) { }
   isEmailExist = async (email: string) => {
     const user = await this.userModel.exists({ email: email });
     if (user) return true;
