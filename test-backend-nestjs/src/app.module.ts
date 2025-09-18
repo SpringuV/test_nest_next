@@ -12,6 +12,7 @@ import { OrderDetailModule } from './modules/order.detail/order.detail.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { RestaurantsModule } from './modules/restaurants/restaurants.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [AppController],
@@ -27,9 +28,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     ReviewsModule,
     UsersModule,
     MongooseModule.forRoot('mongodb://localhost:27017/admin'),
-    ConfigModule.forRoot(
-      { isGlobal: true },
-    ),
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -37,6 +36,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

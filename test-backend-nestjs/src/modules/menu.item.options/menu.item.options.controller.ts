@@ -5,7 +5,7 @@ import { UpdateMenuItemOptionDto } from './dto/update-menu.item.option.dto';
 
 @Controller('menu-item-options')
 export class MenuItemOptionsController {
-  constructor(private readonly menuItemOptionsService: MenuItemOptionsService) { }
+  constructor(private readonly menuItemOptionsService: MenuItemOptionsService) {}
 
   @Post()
   create(@Body() createMenuItemOptionDto: CreateMenuItemOptionDto) {

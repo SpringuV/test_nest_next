@@ -6,21 +6,20 @@ export type MenuItemOptionDocument = HydratedDocument<MenuItemOption>;
 
 @Schema({ timestamps: true })
 export class MenuItemOption {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: MenuItem.name })
-    menuItem: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: MenuItem.name })
+  menuItem: mongoose.Schema.Types.ObjectId;
 
-    @Prop()
-    title: string;
+  @Prop()
+  title: string;
 
-    @Prop()
-    description: string;
+  @Prop()
+  description: string;
 
-    @Prop()
-    additionalPrice: number;
+  @Prop()
+  additionalPrice: number;
 
-    @Prop()
-    optionalDescription: string;
-
+  @Prop()
+  optionalDescription: string;
 }
 
 export const MenuItemOptionSchema = SchemaFactory.createForClass(MenuItemOption);

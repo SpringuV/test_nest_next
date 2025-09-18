@@ -23,18 +23,18 @@ export class User {
   address: string;
 
   @Prop()
-  email: string
+  email: string;
 
-  @Prop({default: "LOCAL"})
+  @Prop({ default: 'LOCAL' })
   accountType: string;
 
-  @Prop({ default: "USERS" })
+  @Prop({ default: 'USERS' })
   role: string;
 
   @Prop()
   image: string;
 
-  @Prop({default: false})
+  @Prop({ default: false })
   isActive: boolean;
 
   @Prop()

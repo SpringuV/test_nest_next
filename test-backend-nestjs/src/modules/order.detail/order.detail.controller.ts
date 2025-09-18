@@ -5,7 +5,7 @@ import { UpdateOrderDetailDto } from './dto/update-order.detail.dto';
 
 @Controller('order-detail')
 export class OrderDetailController {
-  constructor(private readonly orderDetailService: OrderDetailService) { }
+  constructor(private readonly orderDetailService: OrderDetailService) {}
 
   @Post()
   create(@Body() createOrderDetailDto: CreateOrderDetailDto) {

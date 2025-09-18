@@ -1,4 +1,3 @@
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Restaurant } from 'src/modules/restaurants/schemas/restaurant.schema';
@@ -8,22 +7,20 @@ export type ReviewDocument = HydratedDocument<Review>;
 
 @Schema({ timestamps: true })
 export class Review {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  user: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-    user: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Restaurant.name })
+  restaurant: mongoose.Schema.Types.ObjectId;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Restaurant.name })
-    restaurant: mongoose.Schema.Types.ObjectId;
+  @Prop()
+  rating: number;
 
-    @Prop()
-    rating: number;
+  @Prop()
+  image: string;
 
-    @Prop()
-    image: string;
-
-    @Prop()
-    comment: string;
-
+  @Prop()
+  comment: string;
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);
