@@ -7,6 +7,9 @@ import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import aqp from 'api-query-params';
 import mongoose from 'mongoose';
+import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
+import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +20,7 @@ export class UsersService {
   isEmailExist = async (email: string) => {
     const user = await this.userModel.exists({ email: email });
     if (user) return true;
-    return false;
+    return false; "esModuleInterro"
   };
 
   async create(createUserDto: CreateUserDto) {
@@ -83,5 +86,29 @@ export class UsersService {
       throw new BadRequestException('id không đúng định dạng mongoDb');
     }
     return `This action removes a #${_id} user`;
+  }
+
+  async handleRegister(registerDTO: CreateAuthDto) {
+    const { name, email, password } = registerDTO;
+    // check email
+    const isExist = await this.isEmailExist(email);
+    if (isExist) {
+      throw new BadRequestException(`Email đã tồn tại: ${email}. Vui lòng sử dụng email khác`);
+    }
+    // hash password
+    const hashPassword = await hashPasswordHelper(password);
+    const user = await this.userModel.create({
+      name,
+      email,
+      password: hashPassword,
+      isActive: false,
+      codeId: uuidv4(),
+      codeExpired: dayjs().add(10, "minutes")
+    })
+    // send email
+    return {
+      _id: user.id,
+      email: user.email
+    }
   }
 }

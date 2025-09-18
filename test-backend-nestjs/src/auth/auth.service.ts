@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/modules/users/users.service';
 import { comparePasswordHelper } from 'src/utils/helper';
+import { CreateAuthDto } from './dto/create-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,5 +28,9 @@ export class AuthService {
       throw new UnauthorizedException("Username/Password không hợp lệ");
     }
     return user
+  }
+
+  handleRegister = async (registerDTO: CreateAuthDto) => {
+    return await this.usersService.handleRegister(registerDTO)
   }
 }
