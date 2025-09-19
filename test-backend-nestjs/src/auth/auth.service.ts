@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/modules/users/users.service';
 import { comparePasswordHelper } from 'src/utils/helper';
@@ -26,6 +26,9 @@ export class AuthService {
     const isValidPassword = await comparePasswordHelper(pass, user.password);
     if (!isValidPassword) {
       throw new UnauthorizedException("Username/Password không hợp lệ");
+    }
+    if(user.isActive === false){
+      throw new BadRequestException("Tài khoản chưa được kích hoạt")
     }
     return user
   }

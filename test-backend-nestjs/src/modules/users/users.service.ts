@@ -10,17 +10,19 @@ import mongoose from 'mongoose';
 import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
+    private readonly mailerService: MailerService
   ) { }
   isEmailExist = async (email: string) => {
     const user = await this.userModel.exists({ email: email });
     if (user) return true;
-    return false; "esModuleInterro"
+    return false;
   };
 
   async create(createUserDto: CreateUserDto) {
@@ -97,15 +99,25 @@ export class UsersService {
     }
     // hash password
     const hashPassword = await hashPasswordHelper(password);
+    const codeId = uuidv4()
     const user = await this.userModel.create({
       name,
       email,
       password: hashPassword,
       isActive: false,
-      codeId: uuidv4(),
+      codeId: codeId,
       codeExpired: dayjs().add(10, "minutes")
     })
     // send email
+    this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Activate your account @nest-next',
+      template: 'register.hbs',
+      context: {
+        name: user?.name ?? user?.email,
+        activationCode: codeId
+      }
+    });
     return {
       _id: user.id,
       email: user.email
