@@ -12,25 +12,45 @@ export class AuthService {
   ) { }
 
   async login(user: any) {
-    const payload = { username: user.email, sub: user._id }
+    const payload = { email: user.email, sub: user._id }
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        // role: user.role, // Thêm role nếu có
+      }
     }
   }
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByEmail(username);
-    if (user == null) {
-      throw new UnauthorizedException("Không thể tìm thấy người dùng")
+  async validateUser(emailOrUsername: string, pass: string): Promise<any> {
+    try {
+      // Tìm user bằng email (vì frontend gửi email qua username field)
+      const user = await this.usersService.findByEmail(emailOrUsername);
+
+      if (!user) {
+        console.log('User not found with email:', emailOrUsername);
+        throw new UnauthorizedException("Không thể tìm thấy người dùng")
+      }
+
+      const isValidPassword = await comparePasswordHelper(pass, user.password);
+      if (!isValidPassword) {
+        console.log('Invalid password for user:', emailOrUsername);
+        throw new UnauthorizedException("Email/Password không hợp lệ");
+      }
+
+      if (user.isActive === false) {
+        console.log('User account is inactive:', emailOrUsername);
+        throw new BadRequestException("Tài khoản chưa được kích hoạt")
+      }
+
+      console.log('User validation successful:', { id: user._id, email: user.email });
+      return user;
+    } catch (error) {
+      console.error('validateUser error:', error.message);
+      throw error;
     }
-    const isValidPassword = await comparePasswordHelper(pass, user.password);
-    if (!isValidPassword) {
-      throw new UnauthorizedException("Username/Password không hợp lệ");
-    }
-    if(user.isActive === false){
-      throw new BadRequestException("Tài khoản chưa được kích hoạt")
-    }
-    return user
   }
 
   handleRegister = async (registerDTO: CreateAuthDto) => {

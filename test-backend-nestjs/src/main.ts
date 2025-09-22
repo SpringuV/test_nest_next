@@ -19,6 +19,13 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: ['*'], // cho phép frontend gọi
+    credentials: true,                 // cho phép gửi cookie/token
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+  })
+
   app.setGlobalPrefix('api/v1', { exclude: [''] });
   await app.listen(port);
 }
