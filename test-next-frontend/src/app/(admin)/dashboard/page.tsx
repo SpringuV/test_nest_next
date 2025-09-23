@@ -1,6 +1,8 @@
-import React from 'react';
+'use client'
+import { auth } from '@/auth';
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+
     return (
         <div>
             Dashboard page

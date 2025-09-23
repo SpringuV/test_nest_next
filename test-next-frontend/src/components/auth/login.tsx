@@ -1,11 +1,10 @@
 "use client"
-import { signIn } from "next-auth/react"
 import React from 'react';
 import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, notification } from 'antd';
 import { authenticate } from "@/utils/actions";
-
-
+import { useRouter } from "next/navigation";
+import { openNotificationWithIcon, contextHolder } from '@/utils/notification';
 
 const Login: React.FC = () => {
     type FieldType = {
@@ -13,11 +12,9 @@ const Login: React.FC = () => {
         password?: string;
         remember?: string;
     };
-
+    const router = useRouter()
     // Primitive = kiểu dữ liệu cơ bản (string, number, …).
-
     // Union = nhiều kiểu kết hợp (string | number).
-
     // Tuple = mảng cố định số lượng và kiểu phần tử ([string, number]).
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values: any) => {
@@ -25,10 +22,20 @@ const Login: React.FC = () => {
         const { email, password, remember } = values
         //  trigger sign-in
         const res = await authenticate(email, password)
-        console.log('>> check res:', res);
-        // const data = await signIn("credentials", { email, password, remember, redirect: false }) // redirectTo: "/dashboard"
-        // console.log('Success:', data);
 
+
+
+        if (res?.error) {
+            openNotificationWithIcon("Error Login", res?.error, 'error')
+            if (res?.code === 2) {
+                setTimeout(() => {
+                    // sau 3s tu dong chuyen huong
+                    router.push('/verify')
+                }, 3000)
+            }
+        } else {
+            router.push('/dashboard')
+        }
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -36,7 +43,8 @@ const Login: React.FC = () => {
     };
     return (
         <>
-            <div className="flex w-full h-screen justify-center items-center">
+            {contextHolder}
+            <div className="flex flex-col w-full h-screen justify-center items-center">
                 <Form
                     name="basic"
                     labelCol={{ span: 8 }}
@@ -73,6 +81,9 @@ const Login: React.FC = () => {
                         </Button>
                     </Form.Item>
                 </Form>
+                <span>
+                    Bạn chưa có tài khoản? <a href="/auth/register" className="italic text-blue-400">Đăng kí tại đây</a>
+                </span>
             </div>
         </>
     )

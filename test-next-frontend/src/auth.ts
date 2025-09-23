@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
             authorize: async (credentials) => {
                 try {
-                    const res = await axios.post("http://localhost:8080/api/v1/auth/login", {
+                    const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/login`, {
                         username: credentials?.email,
                         password: credentials?.password,
                     })
@@ -74,6 +74,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session({ session, token }) {
             (session.user as IUser) = token.user
             return session
+        },
+        authorized: async ({ auth }) => {
+            // Logged in users are authenticated
+            // otherwise redirect to login page
+            return !!auth
         }
     },
     debug: true,

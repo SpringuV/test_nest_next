@@ -3,13 +3,24 @@ import { signIn } from "@/auth";
 
 export async function authenticate(email: string, password: string) {
     try {
-        const r = await signIn("credentials", {
+        const res = await signIn("credentials", {
             email: email,
             password: password,
             // callbackUrl: "/",  
             redirect: false,
         })
-        return r
+
+        // Nếu NextAuth trả về lỗi
+        if (res?.error) {
+            if (res.error === "InvalidEmailPasswordError") {
+                return { error: "Incorrect email or password", code: 1 };
+            }
+            if (res.error === "InactiveAccountError") {
+                return { error: "Your account is inactive", code: 2 };
+            }
+            return { error: res.error, code: 0 };
+        }
+        return res
     } catch (error) {
         if ((error as any).name === "InvalidEmailPasswordError") {
             return {

@@ -1,8 +1,10 @@
 import HomePage from "@/components/layout/homepage";
 import { Button, Form } from "antd";
-import { signIn } from "@/auth"
+import { auth, signIn } from "@/auth"
 
-export default function Home() {
+export default async function Home() {
+    const session = await auth()
+
     return (
         <div>
             <HomePage />

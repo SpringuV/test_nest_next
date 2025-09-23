@@ -38,4 +38,19 @@ declare global {
         access_token: string;
     }
 
+    interface ISession {
+        expires: string,
+        user: {
+            accessToken: string;
+            email: string;
+            id: string;
+            _id: string;
+            name: string;
+        }
+    }
+
+    interface AdminHeaderProps {
+        colorBackground: string;
+        session: ISession;
+    }
 }
