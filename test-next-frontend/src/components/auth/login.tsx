@@ -1,12 +1,14 @@
 "use client"
 import React from 'react';
 import type { FormProps } from 'antd';
-import { Button, Checkbox, Form, Input, notification } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
 import { authenticate } from "@/utils/actions";
 import { useRouter } from "next/navigation";
-import { openNotificationWithIcon, contextHolder } from '@/utils/notification';
+import { useAppNotification } from '@/utils/notification';
+
 
 const Login: React.FC = () => {
+    const {contextHolder, openNotificationWithIcon} = useAppNotification()
     type FieldType = {
         email?: string;
         password?: string;
@@ -18,8 +20,8 @@ const Login: React.FC = () => {
     // Tuple = mảng cố định số lượng và kiểu phần tử ([string, number]).
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values: any) => {
-
-        const { email, password, remember } = values
+        
+        const { email, password } = values
         //  trigger sign-in
         const res = await authenticate(email, password)
 

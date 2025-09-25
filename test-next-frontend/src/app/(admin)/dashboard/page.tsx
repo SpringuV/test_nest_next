@@ -1,7 +1,7 @@
 'use client'
 import { auth } from '@/auth';
 
-const DashboardPage = async () => {
+const DashboardPage = () => {
 
     return (
         <div>

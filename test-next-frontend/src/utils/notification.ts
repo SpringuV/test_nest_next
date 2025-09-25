@@ -1,12 +1,14 @@
 import { notification } from "antd";
 
-export type NotificationType = 'success' | 'info' | 'warning' | 'error';
+export const useAppNotification = () => {
+  const [api, contextHolder] = notification.useNotification();
 
-const [api, contextHolder] = notification.useNotification();
-export { contextHolder };
-export const openNotificationWithIcon = (text: string, description: string, type: NotificationType) => {
+  const openNotificationWithIcon = ( message: string, description: string,  type: 'success' | 'info' | 'warning' | 'error') => {
     api[type]({
-        message: text,
-        description: description
-    })
-}
+      message,
+      description,
+    });
+  };
+
+  return { contextHolder, openNotificationWithIcon };
+};

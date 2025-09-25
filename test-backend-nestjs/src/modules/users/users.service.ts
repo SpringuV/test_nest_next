@@ -11,6 +11,7 @@ import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { MailerService } from '@nestjs-modules/mailer';
+import { CheckCodeDTO } from 'src/auth/dto/check-code.dto';
 
 @Injectable()
 export class UsersService {
@@ -77,6 +78,29 @@ export class UsersService {
   }
   async update(updateUserDto: UpdateUserDto) {
     return await this.userModel.updateOne({ _id: updateUserDto._id }, { ...updateUserDto });
+  }
+
+  async handleActive(data: CheckCodeDTO){
+    const user = await this.userModel.findOne({
+      _id: data._id,
+      codeId: data.codeId
+    })
+    if(!user){
+      throw new BadRequestException("Mã code không hợp lệ")
+    }
+
+    // chech expire codeId
+    const isBeforeCheck = dayjs().isBefore(user.codeExpired)
+    if(!isBeforeCheck){
+      // invalid
+      throw new BadRequestException("Mã code đã hết hạn")
+    } else {
+      // valid then update user
+      await this.userModel.updateOne({_id: data._id}, {
+        isActive: true
+      })
+    }
+    return isBeforeCheck
   }
 
   remove(_id: string) {

@@ -3,7 +3,7 @@ import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { contextHolder, openNotificationWithIcon } from '@/utils/notification';
+import { useAppNotification } from '@/utils/notification';
 
 interface I_RegisterResponse {
     _id: string,
@@ -17,6 +17,7 @@ type FieldType = {
 };
 
 const Register: React.FC = () => {
+    const {contextHolder, openNotificationWithIcon} = useAppNotification()
     const router = useRouter()
     // Primitive = kiểu dữ liệu cơ bản (string, number, …).
     // Union = nhiều kiểu kết hợp (string | number).
