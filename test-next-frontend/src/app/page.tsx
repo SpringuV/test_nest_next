@@ -1,9 +1,13 @@
-import Image from "next/image";
+import HomePage from "@/components/layout/homepage";
+import { Button, Form } from "antd";
+import { auth, signIn } from "@/auth"
 
-export default function Home() {
+export default async function Home() {
+    const session = await auth()
+
     return (
         <div>
-            tesst js
+            <HomePage />
         </div>
     );
 }
