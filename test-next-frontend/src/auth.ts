@@ -19,12 +19,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         username: credentials?.email,
                         password: credentials?.password,
                     })
-                    console.log("Backend response status:", res.status);
-                    console.log("Backend response data:", JSON.stringify(res.data, null, 2));
+                    // console.log("Backend response status:", res.status);
+                    // console.log("Backend response data:", JSON.stringify(res.data, null, 2));
+                    // Backend response status: 201
+                    // Backend response data: {
+                    //     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh1YW52dWF1ZGkyMDAyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDU2ZGRiOTBiOTA0ZDc2ODA1MDJhNSIsImlhdCI6MTc1ODg3NDMwMywiZXhwIjoxNzU4ODc0MzAzfQ.8NYqAqBKW7AaykJJW5y0tMBhJuc8jGUwc-kuGw3rSP4",
+                    //         "user": {
+                    //         "_id": "68d56ddb90b904d7680502a5",
+                    //             "email": "xuanvuaudi2002@gmail.com",
+                    //                 "name": "xvu"
+                    //     }
+                    // }
                     const responseData = res.data
                     // Check if we have the expected structure
                     if (responseData && responseData.access_token && responseData.user) {
-                        console.log("SUCCESS: Returning user object to NextAuth:", responseData);
+                        // console.log("SUCCESS: Returning user object to NextAuth:", responseData);
+                        // SUCCESS: Returning user object to NextAuth: {
+                        // access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh1YW52dWF1ZGkyMDAyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDU2ZGRiOTBiOTA0ZDc2ODA1MDJhNSIsImlhdCI6MTc1ODg3NDMwMywiZXhwIjoxNzU4ODc0MzAzfQ.8NYqAqBKW7AaykJJW5y0tMBhJuc8jGUwc-kuGw3rSP4',
+                        // user: {
+                        //     _id: '68d56ddb90b904d7680502a5',
+                        //     email: 'xuanvuaudi2002@gmail.com',
+                        //     name: 'xvu'
+                        // }
+                        // }
                         return {
                             _id: responseData.user?._id,
                             email: responseData.user?.email,

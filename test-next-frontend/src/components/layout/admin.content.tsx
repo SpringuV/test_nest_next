@@ -10,7 +10,7 @@ interface AdminContentProps {
 const AdminContent: React.FC<AdminContentProps> = ({ children, colorBackground, borderRadiusLG }) => {
     const { Content } = Layout;
     // THÊM LOG ĐỂ DEBUG
-    console.log('AdminContent render - có children:', !!children);
+    // console.log('AdminContent render - có children:', !!children);
     return (
         <>
             <Content style={{ margin: '0 16px' }}>

@@ -56,7 +56,13 @@ const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({ children, session
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
-    console.log(">>>>> session: ", session)
+    // console.log(">>>>> session: ", session)
+    // expires: "2025-10-26T08:11:43.693Z"
+    // user: accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh1YW52dWF1ZGkyMDAyQGdtYWlsLmNvbSIsInN1YiI6IjY4ZDU2ZGRiOTBiOTA0ZDc2ODA1MDJhNSIsImlhdCI6MTc1ODg3NDMwMywiZXhwIjoxNzU4ODc0MzAzfQ.8NYqAqBKW7AaykJJW5y0tMBhJuc8jGUwc-kuGw3rSP4"
+    //         email: "xuanvuaudi2002@gmail.com"
+    //         id: "cb5e8e86-475b-4d6d-b634-771eee4c4c59"
+    //         name: "xvu"
+    //         _id: "68d56ddb90b904d7680502a5"
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <AdminSideBar items={items} />

@@ -39,6 +39,18 @@ export class AuthController {
         return this.authService.handleRegister(createAuthDto)
     }
 
+    @Post('retry-active')
+    @Public()
+    retryActive(@Body("email") emailUser: string) {
+        return this.authService.handleRetryActive(emailUser)
+    }
+
+    @Post('confirm-active')
+    @Public()
+    confirmCode(@Body() data: CheckCodeDTO){
+        return this.authService.handleConfirmCode(data)
+    }
+
     @Get('mail')
     @Public()
     testMail() {

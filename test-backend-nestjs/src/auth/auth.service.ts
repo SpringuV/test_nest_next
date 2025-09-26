@@ -58,7 +58,15 @@ export class AuthService {
 		return await this.usersService.handleRegister(registerDTO)
 	}
 
-	checkCodeVerify = async (data: CheckCodeDTO)=>{
+	checkCodeVerify = async (data: CheckCodeDTO) => {
 		return await this.usersService.handleActive(data)
-	}  
+	}
+
+	handleRetryActive = async (emailUser: string) => {
+		return await this.usersService.handleRetryActive(emailUser)
+	}
+
+	handleConfirmCode = async (data: CheckCodeDTO) => {
+		return await this.usersService.handleConfirmCodeActive(data)
+	}
 }
